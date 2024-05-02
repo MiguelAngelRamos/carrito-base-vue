@@ -1,10 +1,14 @@
 <template>
-  <h2>Soy el Home</h2>
+  <Navbar/>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue'
 export default {
-  name: 'home'
+  name: 'home',
+  components: {
+    Navbar
+  }
 }
 </script>
 

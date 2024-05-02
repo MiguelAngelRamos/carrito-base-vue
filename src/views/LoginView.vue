@@ -1,12 +1,12 @@
 <template>
-  <router-view></router-view>
+  <h2>Login Form</h2>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: 'Login'
 }
 </script>
 
-<style></style>
+<style>
+</style>
