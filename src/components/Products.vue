@@ -10,17 +10,17 @@
           <div class="card h-100">
             <img v-bind:src="product.image" class="card-img-top" alt="producto">
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title">{{ product.nombre }}</h5>
-              <p class="card-text">{{ product.precio }}</p>
+              <h5 class="card-title mb-2">{{ product.nombre }}</h5>
+              <p class="card-text text-center fw-bold">{{ product.precio.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'}) }}</p>
               <div class="mt-auto">
                 <div class="input-group mb-3">
                   <!-- Estos botones son para aumentar la cantidad o disminuir la cantidad -->
                   <button class="btn btn-outline-danger">-</button>
-                  <input class="form-control text-center" type="text">
+                  <input class="form-control text-center" type="text" v-model="product.cantidad">
                   <button class="btn btn-outline-success">+</button>
                 </div>
 
-                <button class="btn btn-success w-100 mb-2">Añadir al carrito</button>
+                <button class="btn btn-success w-100 mb-2" @click="addCart(product)">Añadir al carrito</button>
                 <button class="btn btn-dark w-100">Ver el detalle</button>
 
 
@@ -61,25 +61,45 @@ export default {
         }).catch(error => console.log(error))
     },
     addCart(product) {
-      let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
-      let productId = product.id.toString();
-
-      if(carrito[productId]) {
-        //* +=1
-        // carrito[productId].cantidad = carrito[productId].cantidad + 1;
-        carrito[productId].cantidad += 1;
+      if(product.cantidad > 0) {
+         let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
+         let productId = product.id.toString();
+         if(carrito[productId]) {
+            carrito[productId].cantidad += product.cantidad;
+         } else {
+          carrito[productId] = {
+            ...product,
+            cantidad: product.cantidad
+          };
+         }
+         localStorage.setItem('carrito', JSON.stringify(carrito));
       } else {
-        carrito[productId] = {
-          ...product,
-          cantidad: 1
-        }
+        alert('Seleccione una cantidad válida agregar al carrito')
       }
-      localStorage.setItem('carrito', JSON.stringify(carrito)); 
+      // let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
+      // let productId = product.id.toString();
+
+      // if(carrito[productId]) {
+      //   //* +=1
+      //   // carrito[productId].cantidad = carrito[productId].cantidad + 1;
+      //   carrito[productId].cantidad += 1;
+      // } else {
+      //   carrito[productId] = {
+      //     ...product,
+      //     cantidad: 1
+      //   }
+      // }
+      // localStorage.setItem('carrito', JSON.stringify(carrito)); 
     }
   },
+  // filters: {
+  //   currency(value) {
+  //     return '$' + value.toLocalString();
+  //   }
+  // },
   created() {
     this.loadProducts();
-  }
+  },
 }
 </script>
 
@@ -92,8 +112,8 @@ export default {
  -->
 <style scoped>
 img {
-  width: 250px;
-  height: 350px;
+  width: 200px;
+  height: 300px;
   object-fit: contain;
   margin: 0 auto;
 }
