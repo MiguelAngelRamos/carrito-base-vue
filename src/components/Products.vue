@@ -11,7 +11,9 @@
             <img v-bind:src="product.image" class="card-img-top" alt="producto">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title mb-2">{{ product.nombre }}</h5>
-              <p class="card-text text-center fw-bold">{{ product.precio.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'}) }}</p>
+              <p class="card-text text-center fw-bold">{{ product.precio.toLocaleString('es-CL', {
+                style: 'currency',
+                currency: 'CLP'}) }}</p>
               <div class="mt-auto">
                 <div class="input-group mb-3">
                   <!-- Estos botones son para aumentar la cantidad o disminuir la cantidad -->
@@ -21,7 +23,9 @@
                 </div>
 
                 <button class="btn btn-success w-100 mb-2" @click="addCart(product)">Añadir al carrito</button>
-                <button class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver el detalle</button>
+                <button class="btn btn-dark w-100" @click="openModal(product)">
+                  Ver el detalle
+                </button>
               </div>
             </div>
           </div>
@@ -29,15 +33,15 @@
       </template>
     </div>
 
-
   </div>
 
-  <AppModal/>
+  <AppModal v-bind:product="selectProduct"/>
 </template>
 
 <script>
 import productService from '@/services/api';
 import AppModal from '@/components/AppModal.vue';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export default {
   name: 'Products',
@@ -47,7 +51,8 @@ export default {
   data() {
     return {
       products: [],
-      searchQuery: ''
+      searchQuery: '',
+      selectProduct: null
     };
   },
   computed: {
@@ -65,18 +70,18 @@ export default {
         }).catch(error => console.log(error))
     },
     addCart(product) {
-      if(product.cantidad > 0) {
-         let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
-         let productId = product.id.toString();
-         if(carrito[productId]) {
-            carrito[productId].cantidad += product.cantidad;
-         } else {
+      if (product.cantidad > 0) {
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
+        let productId = product.id.toString();
+        if (carrito[productId]) {
+          carrito[productId].cantidad += product.cantidad;
+        } else {
           carrito[productId] = {
             ...product,
             cantidad: product.cantidad
           };
-         }
-         localStorage.setItem('carrito', JSON.stringify(carrito));
+        }
+        localStorage.setItem('carrito', JSON.stringify(carrito));
       } else {
         alert('Seleccione una cantidad válida agregar al carrito')
       }
@@ -94,6 +99,14 @@ export default {
       //   }
       // }
       // localStorage.setItem('carrito', JSON.stringify(carrito)); 
+    },
+    openModal(product) {
+      this.selectProduct = product;
+      this.$nextTick(() => {
+        const modalElement = document.getElementById('staticBackdrop');
+        const modalInstance = new bootstrap.Modal(modalElement);
+        modalInstance.show();
+      });
     }
   },
   // filters: {
