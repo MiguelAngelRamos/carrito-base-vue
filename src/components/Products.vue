@@ -21,9 +21,7 @@
                 </div>
 
                 <button class="btn btn-success w-100 mb-2" @click="addCart(product)">Añadir al carrito</button>
-                <button class="btn btn-dark w-100">Ver el detalle</button>
-
-
+                <button class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver el detalle</button>
               </div>
             </div>
           </div>
@@ -33,13 +31,19 @@
 
 
   </div>
+
+  <AppModal/>
 </template>
 
 <script>
 import productService from '@/services/api';
+import AppModal from '@/components/AppModal.vue';
 
 export default {
   name: 'Products',
+  components: {
+    AppModal
+  },
   data() {
     return {
       products: [],
@@ -112,8 +116,9 @@ export default {
  -->
 <style scoped>
 img {
+  padding: 0.5rem;
   width: 200px;
-  height: 300px;
+  height: 100%;
   object-fit: contain;
   margin: 0 auto;
 }

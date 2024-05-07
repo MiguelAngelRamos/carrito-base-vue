@@ -11,7 +11,7 @@
     "id": 2,
     "nombre": "Macbook PRO",
     "image": "https://http2.mlstatic.com/D_NQ_NP_797920-MLC45629512487_042021-O.webp",
-    "stock": 0
+    "stock": 1
   }, 
   {
     "precio": 119990,
@@ -46,7 +46,7 @@
     "id": 7,
     "nombre": "Sony Playstation PS5",
     "image": "https://i.linio.com/p/3f6b447c68d30e0e1b7e8caa7bd49cf4-product.webp",
-    "stock": 0
+    "stock": 2
   }, 
   {
     "precio": 100990,
