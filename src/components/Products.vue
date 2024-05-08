@@ -17,9 +17,9 @@
               <div class="mt-auto">
                 <div class="input-group mb-3">
                   <!-- Estos botones son para aumentar la cantidad o disminuir la cantidad -->
-                  <button class="btn btn-outline-danger">-</button>
+                  <button class="btn btn-outline-danger" @click="changeQuantity(product, -1)">-</button>
                   <input class="form-control text-center" type="text" v-model="product.cantidad" readonly>
-                  <button class="btn btn-outline-success">+</button>
+                  <button class="btn btn-outline-success" @click="changeQuantity(product, 1)">+</button>
                 </div>
 
                 <button class="btn btn-success w-100 mb-2" @click="addCart(product)">Añadir al carrito</button>
@@ -68,6 +68,13 @@ export default {
           this.products = data.map(product => ({...product, cantidad: 0}));
         }).catch(error => console.log(error))
     },
+    changeQuantity(product, change) {
+      const nuevaCantidad = product.cantidad + change;
+      if(nuevaCantidad >=0 && nuevaCantidad <= product.stock) {
+        product.cantidad = nuevaCantidad;
+      }
+
+    },
     addCart(product) {
       if (product.cantidad > 0) {
         let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
@@ -84,20 +91,6 @@ export default {
       } else {
         alert('Seleccione una cantidad válida agregar al carrito')
       }
-      // let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
-      // let productId = product.id.toString();
-
-      // if(carrito[productId]) {
-      //   //* +=1
-      //   // carrito[productId].cantidad = carrito[productId].cantidad + 1;
-      //   carrito[productId].cantidad += 1;
-      // } else {
-      //   carrito[productId] = {
-      //     ...product,
-      //     cantidad: 1
-      //   }
-      // }
-      // localStorage.setItem('carrito', JSON.stringify(carrito)); 
     },
     openModal(product) {
       this.selectProduct = product;
