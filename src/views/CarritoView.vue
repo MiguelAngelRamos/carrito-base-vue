@@ -1,18 +1,19 @@
 <template>
   <Layout>
-    <Products/>
+    <h1>Carrito View</h1>
   </Layout>
+
 </template>
+
 
 <script>
 import Navbar from '@/components/Navbar.vue'
-import Products from '@/components/Products.vue'
 import Layout from '@/layout/Layout.vue'
+
 export default {
-  name: 'home',
+  name: 'CarritoView',
   components: {
     Navbar,
-    Products,
     Layout
   }
 }
