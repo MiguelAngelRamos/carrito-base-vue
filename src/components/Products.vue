@@ -18,7 +18,7 @@
                 <div class="input-group mb-3">
                   <!-- Estos botones son para aumentar la cantidad o disminuir la cantidad -->
                   <button class="btn btn-outline-danger">-</button>
-                  <input class="form-control text-center" type="text" v-model="product.cantidad">
+                  <input class="form-control text-center" type="text" v-model="product.cantidad" readonly>
                   <button class="btn btn-outline-success">+</button>
                 </div>
 
@@ -58,7 +58,6 @@ export default {
   computed: {
     filterProduct() {
       const result = this.products.filter(product => product.nombre && product.nombre.toLowerCase().includes(this.searchQuery.toLowerCase()));
-      console.log(result);
       return result;
     }
   },
@@ -66,7 +65,7 @@ export default {
     loadProducts() {
       productService.all()
         .then(data => {
-          this.products = data;
+          this.products = data.map(product => ({...product, cantidad: 0}));
         }).catch(error => console.log(error))
     },
     addCart(product) {

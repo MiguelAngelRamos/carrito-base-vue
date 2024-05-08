@@ -10,7 +10,6 @@ export default {
             throw new Error('Fallo el llamado hacia el api de products')
           }
         }).then(data => {
-          console.log(data);
           return resolve(data);
         }).catch(error => reject(error));
     });

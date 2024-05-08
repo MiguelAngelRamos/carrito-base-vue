@@ -6,7 +6,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- .d-none .d-md-none .d-lg-block -->
-      <a class="navbar-brand" href="#">CarritoVue</a>
+      <router-link class="navbar-brand" to="/">CarritoVue</router-link>
 
       <router-link to="/carrito">
         <div class="icon-carrito d-md-block d-lg-none mx-3">
@@ -17,13 +17,8 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            <router-link class="nav-link active" to="/">Home</router-link>
+            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
           </li>
         </ul>
 
