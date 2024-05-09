@@ -1,7 +1,7 @@
 export default {
   all() {
     return new Promise((resolve, reject) => {
-      fetch('/products.json')
+      fetch('/products-full.json')
         .then( response => {
           //Ok status 200, fue exitosa la llamada al api.
           if(response.ok) {

@@ -4,7 +4,7 @@
     <input v-model="searchQuery" class="mt-5 form-control" placeholder="Buscar Productos" />
     <div v-if="products.length === 0">Cargando productos...</div>
     <div class="row mt-3">
-      <template v-for="product in filterProduct" :key="product.id">
+      <template v-for="product in filterProduct">
         <!-- los productos con stock superior a cero, son los productos que necesitamos renderizar  -->
         <div v-if="product && product.stock > 0" :key="product.id" class="col-sm-6 col-md-4 col-lg-3 mb-4">
           <div class="card h-100">
@@ -76,11 +76,13 @@ export default {
 
     },
     addCart(product) {
-      if (product.cantidad > 0) {
+      if (product.cantidad > 0 && product.cantidad <= product.stock) {
         let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
         let productId = product.id.toString();
         if (carrito[productId]) {
-          carrito[productId].cantidad += product.cantidad;
+          // carrito[productId].cantidad  += product.cantidad;
+          product.cantidad <= product.stock? carrito[productId].cantidad  = carrito[productId].cantidad + product.cantidad: carrito[productId].cantidad;
+          
         } else {
           carrito[productId] = {
             ...product,
