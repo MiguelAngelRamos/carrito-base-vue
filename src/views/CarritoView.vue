@@ -26,7 +26,7 @@
           </td>
           <td>{{ item.cantidad }}</td>
           <td>
-            <button class="btn btn-outline-danger btn-sm">
+            <button class="btn btn-outline-danger btn-sm" @click="removeItem(item)">
             <i class="fa-solid fa-trash"></i>
             </button>
           </td>
@@ -49,7 +49,7 @@
       </tfoot>
      </table>
     </div>
-    
+    <button class="mt-3 btn btn-success"  @click="continuarCompra" v-if="carrito.length > 0">Continuar con la Compra</button>
   </Layout>
 
 </template>
@@ -75,6 +75,17 @@ export default {
       const carritoStorage = localStorage.getItem('carrito');
       this.carrito = carritoStorage ? Object.values(JSON.parse(carritoStorage)):[];
       console.log(this.carrito);
+    },
+    removeItem(product) {
+      let carrito = JSON.parse(localStorage.getItem('carrito'));
+      if(carrito[product.id]) {
+        delete carrito[product.id];
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        this.loadCarrito();
+      }
+    },
+    continuarCompra() {
+      alert('Proceso de compra en desarrollo.')
     }
   },
   computed: {
