@@ -13,7 +13,8 @@
               <h5 class="card-title mb-2">{{ product.nombre }}</h5>
               <p class="card-text text-center fw-bold">{{ product.precio.toLocaleString('es-CL', {
                 style: 'currency',
-                currency: 'CLP'}) }}</p>
+                currency: 'CLP'
+              }) }}</p>
               <div class="mt-auto">
                 <div class="input-group mb-3">
                   <!-- Estos botones son para aumentar la cantidad o disminuir la cantidad -->
@@ -35,7 +36,7 @@
 
   </div>
 
-  <AppModal v-bind:product="selectProduct"/>
+  <AppModal v-bind:product="selectProduct" />
 </template>
 
 <script>
@@ -65,35 +66,42 @@ export default {
     loadProducts() {
       productService.all()
         .then(data => {
-          this.products = data.map(product => ({...product, cantidad: 0}));
+          this.products = data.map(product => ({ ...product, cantidad: 0 }));
         }).catch(error => console.log(error))
     },
     changeQuantity(product, change) {
       const nuevaCantidad = product.cantidad + change;
-      if(nuevaCantidad >=0 && nuevaCantidad <= product.stock) {
+      if (nuevaCantidad >= 0 && nuevaCantidad <= product.stock) {
         product.cantidad = nuevaCantidad;
       }
 
     },
     addCart(product) {
-      if (product.cantidad > 0 && product.cantidad <= product.stock) {
+      if (product.cantidad > 0) {
         let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
         let productId = product.id.toString();
-        if (carrito[productId]) {
-          // carrito[productId].cantidad  += product.cantidad;
-          product.cantidad <= product.stock? carrito[productId].cantidad  = carrito[productId].cantidad + product.cantidad: carrito[productId].cantidad;
-          
+        let cantidadActualEnCarrito = carrito[productId] ? carrito[productId].cantidad : 0;
+        let cantidadTotalDeseada = cantidadActualEnCarrito + product.cantidad;
+
+        if (cantidadTotalDeseada <= product.stock) {
+          if (carrito[productId]) {
+            carrito[productId].cantidad = cantidadTotalDeseada;
+          } else {
+            // Si el producto no está en el carrito, agrégalo directamente.
+            carrito[productId] = {
+              ...product,
+              cantidad: product.cantidad
+            };
+          }
+          localStorage.setItem('carrito', JSON.stringify(carrito));
         } else {
-          carrito[productId] = {
-            ...product,
-            cantidad: product.cantidad
-          };
+          alert(`No se puede agregar esa cantidad. Stock disponible: ${product.stock - cantidadActualEnCarrito}`);
         }
-        localStorage.setItem('carrito', JSON.stringify(carrito));
       } else {
-        alert('Seleccione una cantidad válida agregar al carrito')
+        alert('Seleccione una cantidad válida para agregar al carrito.');
       }
-    },
+    }
+    ,
     openModal(product) {
       this.selectProduct = product;
       this.$nextTick(() => {
