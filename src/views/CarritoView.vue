@@ -1,7 +1,8 @@
 <template>
   <Layout>
     <h1>Detalle del carrito de compras</h1>
-    <table class="table">
+    <div class="table-responsive">
+      <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -46,7 +47,9 @@
               }) }}</td>
         </tr>
       </tfoot>
-    </table>
+     </table>
+    </div>
+    
   </Layout>
 
 </template>
