@@ -27,6 +27,8 @@
             <i class="fa-solid fa-cart-shopping"></i>
           </div>
         </router-link>
+
+        <button class="btn btn-outline-light btn-sm" @click="logout">Cerrar Sesión</button>
         <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
@@ -41,7 +43,14 @@
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  methods: {
+    logout() {
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('carrito');
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
 

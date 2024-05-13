@@ -16,7 +16,7 @@
             <input type="password" class="form-control" id="password" v-model="password" required>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100">Submit</button>
+          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
         </form>
 
       </div>

@@ -1,7 +1,8 @@
 <template>
   <Layout>
-    <h1>Detalle del carrito de compras</h1>
-    <div class="table-responsive">
+    <h1 v-if="carrito.length > 0">Detalle del carrito de compras</h1>
+    <div v-if="carrito.length === 0" class="alert alert-danger">No existen productos en carrito de compras</div>
+    <div v-if="carrito.length > 0" class="table-responsive">
       <table class="table">
       <thead>
         <tr>
