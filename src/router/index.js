@@ -8,10 +8,21 @@ import CarritoView from '@/views/CarritoView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'Home', component: HomeView },
+    { path: '/', name: 'Home', component: HomeView, meta: {requiresAuth: true }},
     { path: '/login', name: 'Login', component: LoginView},
-    { path: '/carrito', name: 'Carrito', component: CarritoView }
+    { path: '/carrito', name: 'Carrito', component: CarritoView,  meta: {requiresAuth: true }}
   ]
-})
+});
+// beforEach se ejecuta antes de cada ruta
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('isAuthenticated');
+  
+  if(to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
+
+});
 
 export default router
